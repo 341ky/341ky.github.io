@@ -1,49 +1,395 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-  <title>Xero Hub – Roblox Scripts</title>
-  <meta charset="UTF-8">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Xero Hub — Roblox Script Development</title>
+  <meta name="description" content="Xero Hub develops and sells custom Roblox Lua scripts and digital tools. Digital delivery. Support via email/Discord." />
+
   <style>
-    body{font-family:Arial;background:#0e0e0e;color:#fff;max-width:800px;margin:auto;padding:40px}
-    h1{color:#ff2a2a}
-    h2{margin-top:30px}
-    a{color:#66cfff}
+    :root{
+      --bg0:#05060a;
+      --bg1:#07122a;
+      --card:rgba(255,255,255,.06);
+      --stroke:rgba(255,255,255,.10);
+      --text:rgba(255,255,255,.88);
+      --muted:rgba(255,255,255,.62);
+      --accent:#2f7bff;
+      --accent2:#00d4ff;
+      --danger:#ff2a2a;
+      --shadow: 0 20px 60px rgba(0,0,0,.55);
+      --radius:18px;
+    }
+
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{
+      margin:0;
+      font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial, "Apple Color Emoji","Segoe UI Emoji";
+      color:var(--text);
+      background:
+        radial-gradient(900px 500px at 20% 25%, rgba(47,123,255,.30), transparent 60%),
+        radial-gradient(900px 500px at 75% 60%, rgba(0,212,255,.18), transparent 60%),
+        linear-gradient(180deg, var(--bg0), var(--bg1) 60%, #02030a);
+      overflow-x:hidden;
+    }
+
+    a{color:inherit; text-decoration:none}
+    .wrap{max-width:1150px; margin:0 auto; padding:22px 20px 70px}
+
+    /* top nav */
+    .topbar{
+      position:sticky; top:0; z-index:50;
+      backdrop-filter: blur(10px);
+      background: rgba(2,3,10,.55);
+      border-bottom: 1px solid rgba(255,255,255,.06);
+    }
+    .topbar-inner{
+      max-width:1150px; margin:0 auto; padding:14px 20px;
+      display:flex; align-items:center; justify-content:space-between; gap:16px;
+    }
+    .brand{
+      display:flex; align-items:center; gap:10px; font-weight:800; letter-spacing:.2px;
+    }
+    .logo{
+      width:34px; height:34px; border-radius:12px;
+      background: radial-gradient(16px 16px at 30% 30%, rgba(255,255,255,.35), transparent 60%),
+                  linear-gradient(135deg, var(--accent), #1d2bff);
+      box-shadow: 0 10px 25px rgba(47,123,255,.25);
+      display:grid; place-items:center;
+      font-weight:900;
+    }
+    .logo span{font-size:13px; opacity:.95}
+    nav{
+      display:flex; gap:18px; align-items:center; flex-wrap:wrap;
+      color:rgba(255,255,255,.75);
+      font-weight:600;
+      font-size:14px;
+    }
+    nav a{padding:8px 10px; border-radius:12px}
+    nav a:hover{background:rgba(255,255,255,.06); color:#fff}
+
+    .btn{
+      display:inline-flex; align-items:center; justify-content:center;
+      padding:11px 14px;
+      border-radius:14px;
+      border:1px solid rgba(255,255,255,.10);
+      background: rgba(255,255,255,.06);
+      color:#fff; font-weight:700;
+      transition:.15s transform ease, .15s background ease, .15s border ease;
+      gap:10px;
+      cursor:pointer;
+      user-select:none;
+    }
+    .btn:hover{transform: translateY(-1px); background: rgba(255,255,255,.09); border-color: rgba(255,255,255,.16)}
+    .btn.primary{
+      background: linear-gradient(135deg, var(--accent), #1d2bff);
+      border-color: rgba(255,255,255,.14);
+      box-shadow: 0 18px 35px rgba(47,123,255,.22);
+    }
+    .btn.primary:hover{background: linear-gradient(135deg, #3c88ff, #2436ff)}
+    .btn .arrow{opacity:.9}
+
+    /* hero */
+    .hero{
+      padding:54px 0 10px;
+      display:grid;
+      grid-template-columns: 1.05fr .95fr;
+      gap:26px;
+      align-items:stretch;
+    }
+    .hero-left{
+      padding:14px 0;
+    }
+    .kicker{
+      display:inline-flex; gap:10px; align-items:center;
+      padding:8px 12px;
+      border:1px solid rgba(255,255,255,.10);
+      background: rgba(255,255,255,.05);
+      border-radius:999px;
+      color:rgba(255,255,255,.75);
+      font-weight:700;
+      font-size:13px;
+    }
+    .dot{
+      width:8px; height:8px; border-radius:50%;
+      background: var(--accent2);
+      box-shadow: 0 0 0 6px rgba(0,212,255,.12);
+    }
+    h1{
+      margin:18px 0 10px;
+      font-size:64px;
+      line-height:1.03;
+      letter-spacing:-1px;
+    }
+    .subtitle{
+      font-size:28px;
+      font-weight:800;
+      color: rgba(47,123,255,.95);
+      margin:0 0 14px;
+    }
+    .lead{
+      color: var(--muted);
+      font-size:16px;
+      line-height:1.6;
+      max-width:560px;
+      margin:0 0 22px;
+    }
+    .actions{display:flex; gap:12px; flex-wrap:wrap; margin:12px 0 18px}
+    .trust{
+      margin-top:14px;
+      display:flex; align-items:center; gap:10px;
+      color:rgba(255,255,255,.68);
+      font-weight:700;
+      font-size:13px;
+    }
+    .stars{letter-spacing:1px}
+    .stars span{color:#ffd44d; text-shadow:0 8px 16px rgba(255,212,77,.12)}
+
+    /* right code card */
+    .card{
+      border-radius: var(--radius);
+      background: rgba(255,255,255,.06);
+      border: 1px solid rgba(255,255,255,.10);
+      box-shadow: var(--shadow);
+      overflow:hidden;
+      position:relative;
+    }
+    .terminal-top{
+      height:44px;
+      display:flex;
+      align-items:center;
+      gap:10px;
+      padding:0 16px;
+      background: rgba(0,0,0,.22);
+      border-bottom: 1px solid rgba(255,255,255,.08);
+      color:rgba(255,255,255,.70);
+      font-weight:700;
+      font-size:13px;
+    }
+    .dots{display:flex; gap:7px}
+    .dots i{width:10px; height:10px; border-radius:50%; display:inline-block}
+    .dots i:nth-child(1){background:#ff5f57}
+    .dots i:nth-child(2){background:#febc2e}
+    .dots i:nth-child(3){background:#28c840}
+    .terminal-body{
+      padding:18px 18px 22px;
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace;
+      font-size:14px;
+      line-height:1.65;
+      color:rgba(255,255,255,.82);
+      min-height:320px;
+    }
+    .prompt{color:#35ff7a}
+    .cmd{color:rgba(255,255,255,.86)}
+    .muted{color:rgba(255,255,255,.55)}
+    .hl{color:#7cc4ff}
+    .pill{
+      display:inline-flex; align-items:center; gap:8px;
+      padding:9px 12px;
+      border-radius:999px;
+      border:1px solid rgba(255,255,255,.10);
+      background: rgba(255,255,255,.05);
+      color:rgba(255,255,255,.75);
+      font-weight:800;
+      font-size:12px;
+      margin:6px 8px 0 0;
+    }
+
+    /* sections */
+    .grid{
+      display:grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap:14px;
+      margin-top:28px;
+    }
+    .mini{
+      padding:16px;
+      border-radius: var(--radius);
+      background: rgba(255,255,255,.05);
+      border: 1px solid rgba(255,255,255,.10);
+    }
+    .mini h3{margin:0 0 8px; font-size:16px}
+    .mini p{margin:0; color:var(--muted); line-height:1.55; font-size:14px}
+    .section{
+      margin-top:22px;
+      display:grid;
+      grid-template-columns: 1fr 1fr;
+      gap:14px;
+    }
+    .section .mini ul{margin:10px 0 0; padding-left:18px; color:var(--muted); line-height:1.6; font-size:14px}
+    .tag{
+      display:inline-block;
+      font-size:12px;
+      font-weight:900;
+      color: rgba(255,255,255,.78);
+      background: rgba(255,255,255,.06);
+      border: 1px solid rgba(255,255,255,.10);
+      padding:7px 10px;
+      border-radius:999px;
+      margin-bottom:10px;
+    }
+
+    /* footer */
+    .footer{
+      margin-top:26px;
+      padding-top:18px;
+      border-top:1px solid rgba(255,255,255,.08);
+      color:rgba(255,255,255,.55);
+      font-size:12px;
+      line-height:1.5;
+    }
+
+    @media (max-width: 980px){
+      .hero{grid-template-columns:1fr; padding-top:36px}
+      h1{font-size:52px}
+      .subtitle{font-size:24px}
+      .grid{grid-template-columns:1fr}
+      .section{grid-template-columns:1fr}
+      nav{display:none} /* keep it clean on mobile */
+    }
   </style>
 </head>
+
 <body>
+  <div class="topbar">
+    <div class="topbar-inner">
+      <div class="brand">
+        <div class="logo"><span>XH</span></div>
+        <div>Xero Hub</div>
+      </div>
 
-  <h1>Xero Hub</h1>
+      <nav>
+        <a href="#products">Products</a>
+        <a href="#delivery">Delivery</a>
+        <a href="#support">Support</a>
+        <a href="#policies">Policies</a>
+      </nav>
 
-  <p>
-    Xero Hub develops and sells custom automation scripts and tools for games on
-    the <strong>:contentReference[oaicite:0]{index=0} platform</strong>.
-    Products are delivered digitally after purchase.
-  </p>
+      <a class="btn primary" href="#support">Contact / Support <span class="arrow">→</span></a>
+    </div>
+  </div>
 
-  <h2>Products & Services</h2>
-  <ul>
-    <li>Custom Roblox Lua scripts</li>
-    <li>Private automation tools</li>
-    <li>Script commissions</li>
-    <li>Digital downloads only (no physical goods)</li>
-  </ul>
+  <div class="wrap">
+    <div class="hero">
+      <div class="hero-left">
+        <div class="kicker"><span class="dot"></span> Digital software • Roblox Lua</div>
 
-  <h2>Delivery</h2>
-  <p>Products are delivered digitally via download or direct message after payment.</p>
+        <h1>Xero Hub</h1>
+        <div class="subtitle">Roblox Script Development</div>
 
-  <h2>Contact</h2>
-  <p>Email: your@email.com</p>
+        <p class="lead">
+          I develop and sell <b>custom Roblox Lua scripts</b> and digital tools. Products are delivered digitally.
+          Support is available by email and Discord.
+        </p>
 
-  <h2>Refund Policy</h2>
-  <p>
-    Due to the digital nature of our products, refunds are offered only if the
-    product is not delivered or is non-functional.
-  </p>
+        <div class="actions">
+          <a class="btn primary" href="#products">View Info <span class="arrow">→</span></a>
+          <a class="btn" href="#policies">Refund Policy</a>
+        </div>
 
-  <h2>Terms</h2>
-  <p>
-    All products are independent software tools and are not affiliated with Roblox Corporation.
-  </p>
+        <div class="trust">
+          <div class="stars"><span>★★★★★</span></div>
+          <div>Fast digital delivery • Clear support & policies</div>
+        </div>
+      </div>
 
+      <div class="card" aria-label="terminal card">
+        <div class="terminal-top">
+          <div class="dots"><i></i><i></i><i></i></div>
+          <div>Terminal</div>
+        </div>
+
+        <div class="terminal-body">
+          <div><span class="prompt">$</span> <span class="cmd">service</span> <span class="hl">xero-hub</span> <span class="cmd">--info</span></div>
+          <div class="muted"># What I sell (digital):</div>
+          <div>• Custom Roblox Lua scripts</div>
+          <div>• Script commissions</div>
+          <div>• Digital tools / utilities</div>
+          <br />
+          <div class="muted"># Delivery:</div>
+          <div>• Digital download or direct message delivery</div>
+          <div>• Typical delivery time depends on the product/commission</div>
+          <br />
+          <div class="muted"># Support:</div>
+          <div>• Email + Discord server support</div>
+
+          <div style="margin-top:14px">
+            <span class="pill">Digital only</span>
+            <span class="pill">Clear refund policy</span>
+            <span class="pill">Customer support</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="grid" id="products">
+      <div class="mini">
+        <h3>Products</h3>
+        <p>Digital scripts and tools written in Roblox Lua, delivered online.</p>
+      </div>
+      <div class="mini" id="delivery">
+        <h3>Delivery</h3>
+        <p>Digital delivery via download link or direct message after purchase.</p>
+      </div>
+      <div class="mini" id="support">
+        <h3>Support</h3>
+        <p>Email support + Discord server for customer help and updates.</p>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="mini">
+        <div class="tag">What I provide</div>
+        <h3>Services & Scope</h3>
+        <ul>
+          <li>Custom Roblox Lua scripts (commissions)</li>
+          <li>Digital script packages / tools</li>
+          <li>Bug fixes / updates (when included)</li>
+          <li>No physical goods</li>
+        </ul>
+      </div>
+
+      <div class="mini">
+        <div class="tag">Contact</div>
+        <h3>How to reach me</h3>
+        <p style="margin:0 0 10px;color:var(--muted)">
+          Stripe-friendly: include a real support email.
+        </p>
+        <ul>
+          <li><b>Email:</b> support@yourmail.com</li>
+          <li><b>Discord:</b> https://discord.gg/S5rThEPjYW</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="section" id="policies">
+      <div class="mini">
+        <div class="tag">Refund policy</div>
+        <h3>Refunds</h3>
+        <p>
+          Because products are digital, refunds are only offered if the product is <b>not delivered</b>
+          or is <b>non-functional</b> and I can’t resolve it within a reasonable time.
+        </p>
+      </div>
+
+      <div class="mini">
+        <div class="tag">Terms</div>
+        <h3>Disclosure</h3>
+        <p>
+          Xero Hub is independent and not affiliated with Roblox Corporation.
+          Customers are responsible for following platform rules and applicable laws.
+        </p>
+      </div>
+    </div>
+
+    <div class="footer">
+      © <span id="y"></span> Xero Hub. Digital products and services only. For support: support@yourmail.com
+    </div>
+  </div>
+
+  <script>
+    document.getElementById("y").textContent = new Date().getFullYear();
+  </script>
 </body>
 </html>
