@@ -106,7 +106,7 @@
     nav{
       display:flex; gap:18px; align-items:center; flex-wrap:wrap;
       color:rgba(255,255,255,.75);
-      font-weight:800;
+      font-weight:900;
       font-size:14px;
     }
     nav a{padding:8px 10px; border-radius:12px}
@@ -118,7 +118,7 @@
       border-radius:14px;
       border:1px solid rgba(255,255,255,.10);
       background: rgba(255,255,255,.06);
-      color:#fff; font-weight:900;
+      color:#fff; font-weight:950;
       transition:.16s transform ease, .16s background ease, .16s border ease;
       gap:10px;
       user-select:none;
@@ -164,7 +164,7 @@
       background: rgba(255,255,255,.05);
       border-radius:999px;
       color:rgba(255,255,255,.76);
-      font-weight:900;
+      font-weight:950;
       font-size:13px;
       animation: popIn .7s ease both;
     }
@@ -176,7 +176,7 @@
     }
     h1{margin:18px 0 10px;font-size:64px;line-height:1.03;letter-spacing:-1px;animation: rise .75s ease .05s both}
     .subtitle{
-      font-size:28px;font-weight:950;margin:0 0 14px;
+      font-size:28px;font-weight:980;margin:0 0 14px;
       background: linear-gradient(90deg, var(--a1), var(--a3), var(--a2));
       -webkit-background-clip:text; background-clip:text; color:transparent;
       animation: rise .75s ease .12s both;
@@ -184,11 +184,11 @@
     @keyframes rise{from{opacity:0;transform:translateY(12px)} to{opacity:1;transform:translateY(0)}}
     .lead{color:var(--muted);font-size:16px;line-height:1.6;max-width:560px;margin:0 0 22px;animation: rise .75s ease .18s both}
     .actions{display:flex;gap:12px;flex-wrap:wrap;margin:12px 0 18px;animation: rise .75s ease .24s both}
-    .trust{margin-top:14px;display:flex;align-items:center;gap:10px;color:rgba(255,255,255,.68);font-weight:900;font-size:13px;animation: rise .75s ease .30s both}
+    .trust{margin-top:14px;display:flex;align-items:center;gap:10px;color:rgba(255,255,255,.68);font-weight:950;font-size:13px;animation: rise .75s ease .30s both}
     .stars{letter-spacing:1px}
     .stars span{color:#ffd44d;text-shadow:0 10px 18px rgba(255,212,77,.10)}
 
-    /* Samurai card (replaces console) */
+    /* Right card */
     .card{
       border-radius: var(--r);
       background: rgba(255,255,255,.06);
@@ -216,7 +216,7 @@
       border-bottom: 1px solid rgba(255,255,255,.08);
       position:relative;
       z-index:1;
-      font-weight:950;
+      font-weight:980;
       letter-spacing:.2px;
     }
     .badge{
@@ -226,7 +226,7 @@
       border:1px solid rgba(255,255,255,.10);
       color:rgba(255,255,255,.78);
       font-size:12px;
-      font-weight:900;
+      font-weight:950;
     }
     .card-body{
       position:relative;
@@ -234,54 +234,168 @@
       padding:16px 16px 18px;
       min-height:330px;
     }
-    .samurai-wrap{
-      position:relative;
+
+    /* SAMURAI HERO (image) */
+    /* Put your image here: /assets/samurai.jpg (or .png). */
+    .samurai-hero{
+      height: 240px;
       border-radius: 16px;
-      background: linear-gradient(180deg, rgba(0,0,0,.18), rgba(0,0,0,.05));
-      border:1px solid rgba(255,255,255,.10);
-      overflow:hidden;
-      height:220px;
+      border: 1px solid rgba(255,255,255,.10);
+      overflow: hidden;
+      position: relative;
+      background:
+        linear-gradient(180deg, rgba(0,0,0,.10), rgba(0,0,0,.55)),
+        url("assets/samurai.jpg") center/cover no-repeat;
+      box-shadow: 0 20px 60px rgba(0,0,0,.35);
+      transform: translateZ(0);
     }
-    .samurai-bg{
+
+    /* vignette + color grade */
+    .samurai-hero::before{
+      content:"";
       position:absolute; inset:0;
       background:
-        radial-gradient(380px 220px at 30% 40%, rgba(168,85,247,.22), transparent 60%),
-        radial-gradient(380px 220px at 70% 60%, rgba(34,197,94,.16), transparent 60%),
-        radial-gradient(420px 240px at 55% 20%, rgba(56,189,248,.14), transparent 60%);
-      filter: blur(12px);
-      transform: scale(1.12);
-      animation: par 6s ease-in-out infinite alternate;
+        radial-gradient(550px 260px at 65% 35%, rgba(56,189,248,.12), transparent 62%),
+        radial-gradient(650px 320px at 35% 70%, rgba(168,85,247,.10), transparent 62%),
+        radial-gradient(900px 420px at 50% 50%, transparent 55%, rgba(0,0,0,.72) 100%);
+      opacity:1;
+      pointer-events:none;
     }
-    @keyframes par{from{transform:scale(1.10) translateX(-1%)} to{transform:scale(1.16) translateX(1%)}}
 
-    .slash{
+    /* subtle fog drift */
+    .samurai-fog{
+      position:absolute; inset:-20%;
+      background:
+        radial-gradient(420px 180px at 35% 65%, rgba(255,255,255,.06), transparent 60%),
+        radial-gradient(520px 220px at 65% 55%, rgba(255,255,255,.05), transparent 60%),
+        radial-gradient(380px 160px at 55% 75%, rgba(255,255,255,.04), transparent 60%);
+      filter: blur(14px);
+      animation: fog 8s ease-in-out infinite alternate;
+      opacity:.9;
+      pointer-events:none;
+    }
+    @keyframes fog{
+      from{transform: translate3d(-1.5%, -1%, 0) scale(1.02)}
+      to{transform: translate3d(1.5%, 1%, 0) scale(1.06)}
+    }
+
+    /* slash (quick, natural) */
+    .samurai-slash{
       position:absolute;
-      left:-20%;
+      left:-25%;
       top:52%;
-      width:140%;
+      width:150%;
       height:2px;
-      background: linear-gradient(90deg, transparent, rgba(255,255,255,.75), transparent);
-      transform: rotate(-12deg);
-      opacity:.0;
-      animation: slash 2.6s ease-in-out infinite;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,.9), transparent);
+      transform: rotate(-10deg);
       filter: drop-shadow(0 0 12px rgba(255,255,255,.35));
+      opacity:0;
+      animation: slash 2.35s ease-in-out infinite;
+      pointer-events:none;
     }
     @keyframes slash{
-      0%{opacity:0; transform:translateX(-30%) rotate(-12deg)}
-      20%{opacity:.95}
-      45%{opacity:0; transform:translateX(30%) rotate(-12deg)}
-      100%{opacity:0; transform:translateX(30%) rotate(-12deg)}
+      0%{opacity:0; transform:translateX(-22%) rotate(-10deg)}
+      16%{opacity:1}
+      34%{opacity:0; transform:translateX(18%) rotate(-10deg)}
+      100%{opacity:0}
     }
 
-    .samurai-svg{
+    /* sparks (natural-ish) */
+    .sparks{
       position:absolute; inset:0;
-      width:100%; height:100%;
-      opacity:.98;
+      pointer-events:none;
+      opacity:0;
+      animation: sparksOn 2.35s ease-in-out infinite;
+      filter: drop-shadow(0 0 12px rgba(255,255,255,.25));
+      transform: translateZ(0);
     }
-    .s1{transform-origin: 30% 70%; animation: bob 2.8s ease-in-out infinite}
-    .s2{transform-origin: 70% 75%; animation: bob2 3.1s ease-in-out infinite}
-    @keyframes bob{0%,100%{transform:translateY(0)}50%{transform:translateY(-4px)}}
-    @keyframes bob2{0%,100%{transform:translateY(0)}50%{transform:translateY(-6px)}}
+    @keyframes sparksOn{
+      0%{opacity:0}
+      12%{opacity:1}
+      32%{opacity:0}
+      100%{opacity:0}
+    }
+    .spark{
+      position:absolute;
+      left:56%;
+      top:55%;
+      width:2px; height:24px;
+      background: linear-gradient(180deg, rgba(255,255,255,0), rgba(255,255,255,.95), rgba(255,255,255,0));
+      border-radius:2px;
+      opacity:.9;
+      transform-origin: 50% 100%;
+      animation: shoot 2.35s ease-in-out infinite;
+    }
+    /* Each spark gets unique direction + timing */
+    .spark:nth-child(1){ transform: rotate(-70deg); animation-delay: 0s;     height:26px; }
+    .spark:nth-child(2){ transform: rotate(-40deg); animation-delay: .02s;   height:20px; opacity:.75; }
+    .spark:nth-child(3){ transform: rotate(-15deg); animation-delay: .01s;   height:28px; }
+    .spark:nth-child(4){ transform: rotate(15deg);  animation-delay: .03s;   height:22px; opacity:.7; }
+    .spark:nth-child(5){ transform: rotate(40deg);  animation-delay: .02s;   height:30px; }
+    .spark:nth-child(6){ transform: rotate(70deg);  animation-delay: 0s;     height:18px; opacity:.65; }
+    .spark:nth-child(7){ transform: rotate(105deg); animation-delay: .02s;   height:26px; }
+    .spark:nth-child(8){ transform: rotate(135deg); animation-delay: .01s;   height:20px; opacity:.7; }
+
+    @keyframes shoot{
+      0%{opacity:0; transform: translate(0,0) rotate(var(--r,0deg)) scaleY(.6)}
+      10%{opacity:1}
+      24%{opacity:.9}
+      36%{opacity:0; transform: translate(var(--x,0), var(--y,0)) rotate(var(--r,0deg)) scaleY(1.2)}
+      100%{opacity:0}
+    }
+
+    /* give each spark a travel vector (random-looking) */
+    .spark.s1{ --x:-30px; --y:-28px; --r:-70deg; }
+    .spark.s2{ --x:-22px; --y:-18px; --r:-40deg; }
+    .spark.s3{ --x:-10px; --y:-34px; --r:-15deg; }
+    .spark.s4{ --x: 10px; --y:-32px; --r: 15deg; }
+    .spark.s5{ --x: 22px; --y:-20px; --r: 40deg; }
+    .spark.s6{ --x: 30px; --y:-14px; --r: 70deg; }
+    .spark.s7{ --x: 26px; --y:  8px; --r:105deg; }
+    .spark.s8{ --x: 18px; --y: 14px; --r:135deg; }
+
+    /* clash glow */
+    .clash{
+      position:absolute;
+      left:55.5%;
+      top:54.5%;
+      width:10px; height:10px;
+      border-radius:999px;
+      background: rgba(255,255,255,.95);
+      box-shadow: 0 0 26px rgba(255,255,255,.35);
+      transform: translate(-50%,-50%);
+      opacity:0;
+      animation: clash 2.35s ease-in-out infinite;
+      pointer-events:none;
+    }
+    @keyframes clash{
+      0%{opacity:0; transform: translate(-50%,-50%) scale(.6)}
+      12%{opacity:1; transform: translate(-50%,-50%) scale(1.25)}
+      28%{opacity:.0; transform: translate(-50%,-50%) scale(1.5)}
+      100%{opacity:0}
+    }
+
+    .samurai-caption{
+      position:absolute;
+      left:14px;
+      bottom:14px;
+      right:14px;
+      padding:10px 12px;
+      border-radius:14px;
+      background: rgba(0,0,0,.40);
+      border: 1px solid rgba(255,255,255,.10);
+      backdrop-filter: blur(8px);
+    }
+    .samurai-title{
+      font-weight:980;
+      letter-spacing:.2px;
+    }
+    .samurai-sub{
+      margin-top:2px;
+      color: rgba(255,255,255,.70);
+      font-weight:900;
+      font-size:12px;
+    }
 
     .card-text{
       margin-top:14px;
@@ -291,7 +405,7 @@
     .line{
       display:flex; gap:10px; align-items:flex-start;
       color:rgba(255,255,255,.78);
-      font-weight:800;
+      font-weight:900;
     }
     .line span{
       width:10px; height:10px; border-radius:50%;
@@ -308,7 +422,7 @@
       border:1px solid rgba(255,255,255,.10);
       background: rgba(255,255,255,.05);
       color:rgba(255,255,255,.75);
-      font-weight:950;
+      font-weight:980;
       font-size:12px;
       margin:6px 8px 0 0;
     }
@@ -337,7 +451,7 @@
       border:1px solid rgba(255,255,255,.10);
       background: rgba(255,255,255,.05);
       color:rgba(255,255,255,.78);
-      font-weight:950;
+      font-weight:980;
       font-size:13px;
       cursor:pointer;
       transition:.15s;
@@ -357,7 +471,7 @@
       display:grid; place-items:center;
       cursor:pointer;
       transition:.15s;
-      font-weight:950;
+      font-weight:980;
     }
     .iconbtn:hover{transform:translateY(-1px); background: rgba(255,255,255,.08)}
     .track{
@@ -384,7 +498,7 @@
     .tag{
       display:inline-block;
       font-size:12px;
-      font-weight:950;
+      font-weight:980;
       color: rgba(255,255,255,.78);
       background: rgba(255,255,255,.06);
       border: 1px solid rgba(255,255,255,.10);
@@ -465,91 +579,33 @@
         </div>
       </div>
 
-      <!-- Samurai scene card -->
-      <div class="card" aria-label="samurai scene">
+      <div class="card" aria-label="samurai hero card">
         <div class="card-head">
           <div>Samurai Clash</div>
           <div class="badge">digital • fast delivery</div>
         </div>
 
         <div class="card-body">
-          <div class="samurai-wrap">
-            <div class="samurai-bg"></div>
-            <div class="slash"></div>
+          <div class="samurai-hero" id="samuraiHero">
+            <div class="samurai-fog"></div>
+            <div class="samurai-slash"></div>
+            <div class="clash"></div>
 
-            <!-- Simple stylized samurai duel (SVG) -->
-            <svg class="samurai-svg" viewBox="0 0 900 420" xmlns="http://www.w3.org/2000/svg">
-              <defs>
-                <linearGradient id="g1" x1="0" y1="0" x2="1" y2="1">
-                  <stop offset="0" stop-color="rgba(168,85,247,.65)"/>
-                  <stop offset="1" stop-color="rgba(56,189,248,.35)"/>
-                </linearGradient>
-                <linearGradient id="g2" x1="1" y1="0" x2="0" y2="1">
-                  <stop offset="0" stop-color="rgba(34,197,94,.55)"/>
-                  <stop offset="1" stop-color="rgba(56,189,248,.25)"/>
-                </linearGradient>
-                <filter id="glow">
-                  <feGaussianBlur stdDeviation="6" result="b"/>
-                  <feMerge>
-                    <feMergeNode in="b"/>
-                    <feMergeNode in="SourceGraphic"/>
-                  </feMerge>
-                </filter>
-              </defs>
+            <div class="sparks" aria-hidden="true">
+              <div class="spark s1"></div>
+              <div class="spark s2"></div>
+              <div class="spark s3"></div>
+              <div class="spark s4"></div>
+              <div class="spark s5"></div>
+              <div class="spark s6"></div>
+              <div class="spark s7"></div>
+              <div class="spark s8"></div>
+            </div>
 
-              <!-- ground mist -->
-              <ellipse cx="450" cy="350" rx="360" ry="70" fill="rgba(255,255,255,.06)"/>
-              <ellipse cx="450" cy="360" rx="300" ry="55" fill="rgba(255,255,255,.05)"/>
-
-              <!-- Samurai left -->
-              <g class="s1" filter="url(#glow)">
-                <!-- body -->
-                <path d="M210 275 C190 240 195 205 225 185 C255 165 290 170 315 195 C340 220 340 260 320 290
-                         C300 320 245 320 210 275 Z"
-                      fill="url(#g1)" opacity=".95"/>
-                <!-- head -->
-                <circle cx="270" cy="150" r="28" fill="rgba(255,255,255,.12)" stroke="rgba(255,255,255,.18)" />
-                <!-- helmet -->
-                <path d="M240 148 C252 118 288 118 300 148 L300 158 C288 170 252 170 240 158 Z"
-                      fill="rgba(0,0,0,.28)" stroke="rgba(255,255,255,.12)"/>
-                <!-- sword arm -->
-                <path d="M315 210 L405 170" stroke="rgba(255,255,255,.72)" stroke-width="6" stroke-linecap="round"/>
-                <!-- blade -->
-                <path d="M405 170 L540 120" stroke="rgba(255,255,255,.85)" stroke-width="3" stroke-linecap="round"/>
-                <!-- legs -->
-                <path d="M245 300 L220 350" stroke="rgba(255,255,255,.30)" stroke-width="10" stroke-linecap="round"/>
-                <path d="M295 305 L320 352" stroke="rgba(255,255,255,.30)" stroke-width="10" stroke-linecap="round"/>
-              </g>
-
-              <!-- Samurai right -->
-              <g class="s2" filter="url(#glow)">
-                <!-- body -->
-                <path d="M690 275 C710 240 705 205 675 185 C645 165 610 170 585 195 C560 220 560 260 580 290
-                         C600 320 655 320 690 275 Z"
-                      fill="url(#g2)" opacity=".95"/>
-                <!-- head -->
-                <circle cx="630" cy="150" r="28" fill="rgba(255,255,255,.12)" stroke="rgba(255,255,255,.18)" />
-                <!-- helmet -->
-                <path d="M600 148 C612 118 648 118 660 148 L660 158 C648 170 612 170 600 158 Z"
-                      fill="rgba(0,0,0,.28)" stroke="rgba(255,255,255,.12)"/>
-                <!-- sword arm -->
-                <path d="M585 210 L495 170" stroke="rgba(255,255,255,.72)" stroke-width="6" stroke-linecap="round"/>
-                <!-- blade -->
-                <path d="M495 170 L360 120" stroke="rgba(255,255,255,.85)" stroke-width="3" stroke-linecap="round"/>
-                <!-- legs -->
-                <path d="M655 300 L680 350" stroke="rgba(255,255,255,.30)" stroke-width="10" stroke-linecap="round"/>
-                <path d="M605 305 L580 352" stroke="rgba(255,255,255,.30)" stroke-width="10" stroke-linecap="round"/>
-              </g>
-
-              <!-- impact spark -->
-              <g opacity=".9">
-                <circle cx="450" cy="145" r="6" fill="rgba(255,255,255,.85)"/>
-                <path d="M450 145 L470 120" stroke="rgba(255,255,255,.75)" stroke-width="3" stroke-linecap="round"/>
-                <path d="M450 145 L430 120" stroke="rgba(255,255,255,.75)" stroke-width="3" stroke-linecap="round"/>
-                <path d="M450 145 L476 150" stroke="rgba(255,255,255,.65)" stroke-width="3" stroke-linecap="round"/>
-                <path d="M450 145 L424 150" stroke="rgba(255,255,255,.65)" stroke-width="3" stroke-linecap="round"/>
-              </g>
-            </svg>
+            <div class="samurai-caption">
+              <div class="samurai-title">Two samurais. One clash.</div>
+              <div class="samurai-sub">Roblox Lua • Tools • Commissions • Digital delivery</div>
+            </div>
           </div>
 
           <div class="card-text">
@@ -725,12 +781,25 @@
       dx = 0;
     });
 
+    // Parallax for the samurai image (feels like GIF, looks natural)
+    const hero = document.getElementById("samuraiHero");
+    if (hero) {
+      hero.addEventListener("mousemove", (e) => {
+        const r = hero.getBoundingClientRect();
+        const x = ((e.clientX - r.left) / r.width - 0.5) * 8;
+        const y = ((e.clientY - r.top) / r.height - 0.5) * 8;
+        hero.style.backgroundPosition = `${50 + x}% ${50 + y}%`;
+      });
+      hero.addEventListener("mouseleave", () => {
+        hero.style.backgroundPosition = "center";
+      });
+    }
+
     // Reduce motion respect
     if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
       document.querySelector(".bg-anim")?.remove();
       document.querySelector(".card")?.style.setProperty("animation", "none");
-      document.querySelector(".slash")?.style.setProperty("animation", "none");
-      document.querySelector(".samurai-bg")?.style.setProperty("animation", "none");
+      document.querySelector(".samurai-fog")?.style.setProperty("animation", "none");
     }
   </script>
 </body>
